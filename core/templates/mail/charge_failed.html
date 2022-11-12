@@ -1,0 +1,16 @@
+{% extends 'mail/partials/base.html' %}
+
+{% block title %}
+  Hey <span style="color:rgb(255,19,18)">{{user.first_name}}</span>, it seems we couldn't process your purchase to <span style="color:rgb(255,19,18)">{{campaign.title}}</span>.
+{% endblock %}
+
+{% block subtitle %}Your tickets are not ready yet.{% endblock %}
+
+{% block message %} 
+  <div style="text-align:center;">
+    Unfortunately when we charged your credit card we received a failure from Square. This happens most frequently because the card was declined, or the provided postal code did not match your card. Your tickets have not been created, so we strongly encourage you to revisit the ticketing page and try again - you won't be double charged. If you run into any further troubles then please get in touch with RedPine Support so you can attend the show!
+    <br /><br />
+    Thanks for being a part of RedPine!
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,12 @@
+*.pyc
+core/staticfiles
+__pycache__
+.env*
+._*
+tmp_media
+media
+.docker.env
+initdb.d
+performance\.py
+
+media\.zip

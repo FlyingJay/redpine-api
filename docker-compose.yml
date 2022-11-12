@@ -1,0 +1,33 @@
+version: '2'
+
+services:
+  db:
+    image: mdillon/postgis
+    environment:
+      POSTGRES_DB: redpine
+      POSTGRES_USER: redpine
+      POSTGRES_PASSWORD: redpine
+    ports:
+      - 5432
+    volumes:
+      - ./initdb.d:/docker-entrypoint-initdb.d
+  web:
+    environment:
+      DATABASE_URL: YOUR_DATABASE_URL
+      STRIPE_TEST_MODE: 1
+    env_file:
+      - .docker.env
+    build: .
+    command: >
+      /bin/bash -c "
+        python3 manage.py migrate;
+        python3 manage.py createsuperuserwithpassword --noinput --username=admin --email=admin@fake.domain --password=pleasechangeme
+        python3 manage.py runserver 0.0.0.0:7000
+      "
+
+    volumes:
+      - .:/code
+    ports:
+      - "7000:7000"
+    depends_on:
+      - db

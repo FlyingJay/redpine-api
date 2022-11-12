@@ -1,0 +1,123 @@
+{% extends 'mail/partials/base.html' %}
+{% with transaction.campaign.timeslot.venue as venue %}
+{% with transaction.campaign.timeslot as timeslot %}
+{% with venue.address|add:', '|add:venue.city.name|add:', '|add:venue.city.province.name|add:', '|add:venue.city.province.country.name|add:' '|add:venue.postal_code|add:'.' as address %}
+
+{% block title %}
+  Hey <span style="color:rgb(255,19,18)">{{user.first_name}}</span>, this is your purchase confirmation for
+  <br>
+  <span style="color:rgb(255,19,18)">{{transaction.campaign.title}}</span>
+{% endblock %}
+
+{% block subtitle %}Your tickets have been sent to you in a separate email. If you have not recieved them, please let us know. <br>You may also <a href="{{tickets_url}}" style="color:rgb(255,19,18)!important">click here</a> to view your tickets.{% endblock %}
+
+{% block message %} 
+  <div>
+    <div id="ih" style="display:block; background:#FFF; width:100%; padding:30px 0; margin:0 auto; border-bottom:1px solid #CCC; text-align:center">
+      <div style="display:block; position:relative; width:90%; height:auto; margin:0 auto">
+        <div style="display:block; width:auto; height:auto; font-size:24px; color:rgb(255,19,18)">
+          Here are your concert details,
+        </div>
+        <div style="clear:both"></div>
+      </div>
+      <div style="display:inline-block; position:relative; width:auto; height:auto; padding:32px 0; margin-right:30px">
+        <div style="display:block; width:auto; max-width:270px; height:auto; padding:10px 15px">
+          <div style="display:block; width:auto; height:auto; float:left; margin-right:10px">
+            <img style="width: 18px;height: 18px; user-select: none;" src="{{REDPINE_STATIC_FILES}}/mail/location.png">
+          </div>
+          <div style="display:block; width:auto; max-width:230px; height:auto; float:left; font-size:17px; color:#292929; text-align:left">
+            {{ venue.address }}, {{ venue.city.name}}, {{venue.city.province.name }}, {{ venue.city.province.country.name }} {{ venue.postal_code}}
+          </div>
+          <div style="clear:both"></div>
+        </div>
+        <div style="display:block; width:auto; max-width:270px; height:auto; padding:10px 15px">
+          <div style="display:block; width:auto; height:auto; float:left; margin-right:10px">
+            <img style="width: 18px; height: 18px; user-select: none;" src="{{REDPINE_STATIC_FILES}}/mail/clock.png">
+          </div>
+          <div style="display:block; width:auto; max-width:230px; height:auto; float:left; font-size:17px; color:#292929; text-align:left">
+            {{transaction.campaign.timeslot.start_time|date:"F jS, Y - P"}} to {{transaction.campaign.timeslot.end_time|date:"F jS, Y - P"}}
+            <!-- August 19th, 2017 - 8:00 AM to August 20th, 2017 - 12:00 AM -->
+          </div>
+          <div style="clear:both"></div>
+        </div>
+        <div style="display:block; width:auto; max-width:270px; height:auto; padding:10px 15px">
+          <div style="display:block; width:auto; height:auto; float:left; margin-right:10px">
+            <img style="width: 18px; height: 18px; user-select: none;" src="{{REDPINE_STATIC_FILES}}/mail/hashtag.png">
+          </div>
+          <div style="display:block; width:auto; max-width:230px; height:auto; float:left; font-size:17px; color:#292929; text-align:left">
+            Use <span style="color:rgb(255,19,18)">#{{transaction.campaign.hashtag}}</span> to keep up with the concert
+          </div>
+          <div style="clear:both"></div>
+        </div>
+      </div>
+      <div style="display:inline-block; position:relative; width:auto; height:200px; padding-bottom:10px">
+        <img style="display: inline-block; margin-left: 10px; height: auto; user-select: none;" src="https://maps.googleapis.com/maps/api/staticmap?center={{ venue.location.y }}, {{venue.location.x }}&zoom=17&scale=false&size=300 x 200&maptype=roadmap&key={{GOOGLE_PUBLIC_API_KEY}}&format=png&visual_refresh=true&markers=size:mid|color:0xff0000|label:A|{{venue.location.y}}, {{venue.location.x}}">
+      </div>
+      <div style="clear:both"></div>
+    </div>
+    <div style="clear:both"></div>
+  </div>
+</div>
+<div id="ih" style="display:block; width:100%; padding:30px 0; margin:0 auto">
+  <div id="message" style="display:block; width:70%; height:auto; padding:10px 15px 30px 15px; font-size:13px; text-align:center; margin:0 auto; color:#292929">
+    <div style="display:block; position:realtive; width:100%; height:auto; padding-bottom:10px; border-bottom:1px dashed #BBB">
+      <div style="display:block; width:auto; height:auto; float:left; font-size:21px; color:#292929">
+        <b>Order Summary</b>
+      </div>
+      <div style="display:block; width:auto; height:auto; float:right; margin-top:5px; font-size:15px; color:#292929">
+        {{transaction.created|date:'j N Y'}}
+      </div>
+      <div style="clear:both"></div>
+    </div>
+    <div style="display:block; position:relative; width:100%; padding-top:10px; height:auto">
+      <div style="display:block; width:auto; height:auto; float:left; font-size:15px; color:#494949">
+        <b>Order #: RPP</b>{{transaction.id}}
+      </div>
+      <div style="clear:both"></div>
+    </div>
+    <div style="display:block; position:relative; width:100%; padding:10px 0 30px 0; height:auto; text-align:center; border-bottom:1px dashed #BBB">
+      <div style="display:inline-block; width:40%; height:auto; float:left; font-size:13px; color:#494949; text-align:left">
+        <b>Name</b>
+      </div>
+      <div style="display:inline-block; width:30%; height:auto; float:left; font-size:13px; color:#494949; text-align:center">
+        <b>Quantity</b>
+      </div>
+      <div style="display:inline-block; width:30%; height:auto; float:left; font-size:13px; color:#494949; text-align:right">
+        <b>Price</b>
+      </div>
+    </div>
+    {%for purchase in purchases%}
+      <div style="display:block; position:relative; width:100%; padding:10px 0 30px 0; height:auto; text-align:center">
+        <div style="display:inline-block; width:40%; height:auto; float:left; font-size:13px; color:#494949; text-align:left">
+          {{purchase.name}}
+        </div>
+        <div style="display:inline-block; width:30%; height:auto; float:left; font-size:13px; color:#494949; text-align:center">
+          {{purchase.quantity}}
+        </div>
+        <div style="display:inline-block; width:30%; height:auto; float:left; font-size:13px; color:#494949; text-align:right">
+          ${{purchase.price | floatformat:2}}
+        </div>
+      </div>
+    {% endfor %}
+    <div style="display:block; position:relative; width:100%; padding:10px 0; height:auto; text-align:center">
+      <div style="display:inline-block; width:100%; height:auto; float:left; font-size:13px; color:#494949; text-align:center">
+        This concert has first come first seating. For more information on this concert, <a href="{{campaign_url}}" target="_blank" style="color:rgb(255,19,18)">click here</a>. 
+        <br>
+        <br>
+        All monetary amounts are displayed in the currency of the event venue.
+        <br>
+        <br>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding:30px;text-align:center">
+    {% include 'mail/partials/action.html' with url=campaign_url message="Concert Details" background="blue" %}
+    {% include 'mail/partials/action.html' with url=tickets_url message="View My Tickets" %}
+  </div>
+</div>
+{% endblock %}
+
+{% endwith %}
+{% endwith %}
+{% endwith %}

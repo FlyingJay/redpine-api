@@ -1,0 +1,14 @@
+{% extends 'mail/partials/base.html' %}
+
+{% block title %}
+  Hey <span style="color:rgb(255,19,18)">{{user.first_name}}</span>, congratulations on upgrading your <span style="color:rgb(255,19,18)">{{account_type}}</span> account!
+{% endblock %}
+
+{% block subtitle %}Your account has been upgraded to the <span style="color:rgb(255,19,18)">{{product_name}}</span> level.{% endblock %}
+
+{% block message %} 
+  <div style="text-align:center;">
+    Go check out your new account!  If you have any questions, we're here to help. 
+  </div>
+</div>
+{% endblock %}

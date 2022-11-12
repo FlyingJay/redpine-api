@@ -1,0 +1,15 @@
+
+{% extends 'mail/partials/system_message.html' %}
+
+{% block title %}
+  Hello <span class="red">{{band.name}}</span>! This email is to confirm that your booking request has been received! 
+{% endblock %}
+
+
+{% block content %} 
+  All requests go through a quick check from our team to make sure they’re real requests. You will receive another email shortly when your request has been sent off to the venue. Sit tight and we’ll be in touch soon!
+
+RedPine Team 
+
+
+{% endblock %}

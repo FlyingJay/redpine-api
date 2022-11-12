@@ -1,0 +1,335 @@
+{% extends 'mail/partials/base.html' %}
+
+{% block extrastyles %}
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .print, .print * {
+    visibility: visible;
+  }
+  .print {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+}
+{% endblock %}
+
+{% block title %}
+  Hey {{user.first_name}}, here are your tickets for
+  <br>
+  <span style="color:rgb(255,19,18)">{{transaction.campaign.title}}</span>
+{% endblock %}
+
+{% block subtitle %}<b>Save the trees!</b> Your tickets DO NOT need to be printed, you may display this email at the door. {% endblock %}
+
+{% block message %} 
+  <div style="clear:both"></div>
+  <div id="ih" style="display:block; width:100%; padding:30px 0; margin:0 auto">
+    <div class="print" style="display:block; padding:10px 0; margin:0 auto;">
+      {% for ticket in transaction.tickets.all %}
+        <div style="display: block;
+                    position: relative;
+                    width: 400px;
+                    text-align: left;
+                    margin: auto;
+                    margin-top: 10px;
+                    margin-bottom: 0;
+                    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
+                    background: #FFF;
+                    padding-bottom: 20px;
+                    margin-bottom: 10px;
+                    page-break-after: always;">
+          <div style="display: inline-block;
+                      vertical-align: top;
+                      position: relative;
+                      width: 350px;
+                      height: 590px;
+                      padding: 20px;
+                      padding-left: 30px;
+                      border-right: 0px solid #EEEEEE;
+                      font-size: 12px;
+                      text-align: left;">
+            <div style="z-index: 2;
+                        display: block;
+                        vertical-align: middle;
+                        position: relative;
+                        width: auto;
+                        height: auto;
+                        margin: 0 0 10px 0;">
+                <img src="{{REDPINE_STATIC_FILES}}/logo.png" style="display: inline-block;
+                                                                    vertical-align: middle;
+                                                                    position: relative;
+                                                                    height: 32px;
+                                                                    margin-right: 13px;
+                                                                    background-size: 32px;
+                                                                    background-position: center;
+                                                                    border-radius: 3px;"/>
+                <div style="display: inline-block;
+                            vertical-align: middle;
+                            position: relative;
+                            width: auto;
+                            height: 32px;
+                            color: #313131;
+                            font-size: 23px;
+                            font-weight: 100;
+                            line-height: 32px;
+                            text-align: left;">
+                  RedPine
+                </div>
+            </div>
+            <div style="display: block;
+                        position: relative;
+                        width: auto;
+                        height: auto;
+                        padding-top: 10px;
+                        margin-bottom: 10px;
+                        border-top: 1px solid #EEEEEE;
+                        text-align: left;">
+              <div style="display:block;text-align:right;">
+                <div style="display: inline-block;
+                            position: relative;
+                            width: auto;
+                            height: auto;
+                            padding: 5px 9px;
+                            margin-bottom: 10px;
+                            background: rgb(255,18,19);
+                            color: #FFF;
+                            font-size: 11px;
+                            text-transform: uppercase;
+                            letter-spacing: 1.5px;
+                            border-radius: 3px;">
+                  {{ ticket.details.name }}
+                </div>
+              </div>
+              <div style="display: inline-block;
+                          vertical-align: middle;
+                          position: relative;
+                          width: 150px;
+                          height: 150px;
+                          margin-right: 10px;">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?data={{ticket.code}}&size=150x150" alt="{{ticket.code}}" title="{{ticket.code}}" width="150" height="150" />
+              </div>
+              <div style="display:inline-block;vertical-align:middle;position:relative;width:180px;height:auto;font-size:12px;">
+                <span style="font-size: 16px;">
+                  {{ ticket.pledge.user.first_name }} {{ ticket.pledge.user.last_name }}
+                </span>
+                <br/><br/>
+                If you show up to the venue on the day of the concert without a ticket, the venue has the right to deny entry.
+              </div>
+            </div>
+            {% if ticket.details.description %}
+              <div style="display: block;
+                          text-align: left;
+                          margin-bottom: 10px;
+                          font-style: italic;">
+                {{ ticket.details.description }}
+              </div>
+            {% endif %}
+            <div>
+              <div style="display: inline-block;
+                          position: relative;
+                          width: auto;
+                          height: auto;
+                          padding: 5px 9px;
+                          margin-bottom: 10px;
+                          background: rgb(255,18,19);
+                          color: #FFF;
+                          font-size: 11px;
+                          text-align: left;
+                          text-transform: uppercase;
+                          letter-spacing: 1.5px;
+                          border-radius: 3px;">
+                Attending
+              </div>
+              <div style="margin-bottom: 10px;
+                          font-size: 25px;
+                          line-height: 23px;
+                          text-align: left;">
+                {{ ticket.pledge.campaign.title }}
+              </div>
+              <div style="margin-bottom: 15px;
+                          font-size: 12px;
+                          line-height: 11px;
+                          text-align: left;">
+                {{ performers }}
+              </div>
+            </div>
+            <div style="ticket_starts">
+              <div style="display: inline-block;
+                          position: relative;
+                          width: auto;
+                          height: auto;
+                          padding: 5px 9px;
+                          margin-bottom: 10px;
+                          background: rgb(255,18,19);
+                          color: #FFF;
+                          font-size: 11px;
+                          text-align: left;
+                          text-transform: uppercase;
+                          letter-spacing: 1.5px;
+                          border-radius: 3px;">
+                Starts
+              </div>
+              <div style="margin-bottom: 10px;
+                          font-size: 25px;
+                          line-height: 23px;
+                          text-align: left;">
+                {{transaction.campaign.timeslot.start_time|date:"F jS, Y @ P"}}
+              </div>
+              <div style="margin-bottom: 15px;
+                          font-size: 12px;
+                          line-height: 11px;
+                          text-align: left;">
+                Please bring your ID with you... As it may be required to enter the venue.
+              </div>
+            </div>
+            <div style="ticket_location">
+              <div style="display: inline-block;
+                          position: relative;
+                          width: auto;
+                          height: auto;
+                          padding: 5px 9px;
+                          margin-bottom: 10px;
+                          background: rgb(255,18,19);
+                          color: #FFF;
+                          font-size: 11px;
+                          text-align: left;
+                          text-transform: uppercase;
+                          letter-spacing: 1.5px;
+                          border-radius: 3px;">
+                Location
+              </div>
+              <div style="margin-bottom: 10px;
+                          font-size: 25px;
+                          line-height: 23px;
+                          text-align: left;">
+                {{transaction.campaign.timeslot.venue.title}}
+              </div>
+              <div style="margin-bottom: 15px;
+                          font-size: 12px;
+                          line-height: 11px;
+                          text-align: left;">
+                {{transaction.campaign.timeslot.venue.address}}{% if transaction.campaign.timeslot.venue.city %}, {{ transaction.campaign.timeslot.venue.city.name}}, {{transaction.campaign.timeslot.venue.city.province.name }}, {{ transaction.campaign.timeslot.venue.city.province.country.name }} {{ transaction.campaign.timeslot.venue.postal_code}}
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+      <br/><br/>
+      <div style="display: block;
+                  position: relative;
+                  height: auto;
+                  width: 400px;
+                  text-align: center;
+                  margin: auto;
+                  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
+                  background: #FFF;
+                  padding-bottom: 20px;
+                  margin-top: 50px;
+                  margin-bottom: 10px;
+                  page-break-after: always;">
+        <div style="display: inline-block;
+                    vertical-align: top;
+                    position: relative;
+                    width: 350px;
+                    height: auto;
+                    padding: 20px;
+                    padding-left: 30px;
+                    border-right: 0px solid #EEEEEE;
+                    font-size: 12px;
+                    text-align: left;">
+          <div style="z-index: 2;
+                      display: block;
+                      vertical-align: middle;
+                      position: relative;
+                      width: auto;
+                      height: auto;
+                      margin: 0 0 10px 0;">
+              <img src="{{REDPINE_STATIC_FILES}}/logo.png" style="display: inline-block;
+                                                                  vertical-align: middle;
+                                                                  position: relative;
+                                                                  height: 32px;
+                                                                  margin-right: 13px;
+                                                                  background-size: 32px;
+                                                                  background-position: center;
+                                                                  border-radius: 3px;"/>
+              <div style="display: inline-block;
+                          vertical-align: middle;
+                          position: relative;
+                          width: auto;
+                          height: 32px;
+                          color: #313131;
+                          font-size: 23px;
+                          font-weight: 100;
+                          line-height: 32px;
+                          text-align: left;">
+                Performer Profiles
+              </div>
+          </div>
+          <div style="display: block;
+                      position: relative;
+                      width: auto;
+                      height: auto;
+                      padding-top: 10px;
+                      margin-bottom: 10px;
+                      border-top: 1px solid #EEEEEE;
+                      text-align: left;">
+            <div style="display:block;text-align:right;">
+              <div style="display: inline-block;
+                          position: relative;
+                          width: auto;
+                          height: auto;
+                          padding: 5px 9px;
+                          margin-bottom: 10px;
+                          background: rgb(255,18,19);
+                          color: #FFF;
+                          font-size: 11px;
+                          text-transform: uppercase;
+                          letter-spacing: 1.5px;
+                          border-radius: 3px;">
+                Scan to learn more!
+              </div>
+            </div>
+            {% for act in acts %}
+              <div style="margin-bottom:10px;">
+                <div style="display: inline-block;
+                          vertical-align: middle;
+                          position: relative;
+                          width: 150px;
+                          height: 150px;
+                          margin-right: 10px;">
+                  <img src="https://api.qrserver.com/v1/create-qr-code/?data={{act.profile_link}}&size=150x150" alt="{{act.profile_link}}" title="{{act.profile_link}}" width="150" height="150" />
+                </div>
+                <div style="display:inline-block;vertical-align:middle;position:relative;width:180px;height:auto;font-size:12px;">
+                  <span style="font-weight:200;font-size:16px">
+                    <a href="{{ act.profile_link }}" style="text-decoration:none;color:#313131;">{{ act.name }}</a>
+                  </span>
+                  <br/><br/>
+                  {% if act.short_bio %}
+                    {{ act.short_bio }}
+                  {% else %}
+                    This performer has not added a bio.
+                  {% endif %}
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="display:block; position:relative; width:100%; padding:10px 0; height:auto; text-align:center">
+      <div style="display:inline-block; width:100%; height:auto; float:left; font-size:16px; color:#494949; text-align:center">
+        A free RedPine account was created for you when you bought tickets.  <b>If you ever lose this email, you may login at <a href="{{ login_url }}">redpinemusic.com </a> to download or print them again.</b>  Use your account to subscribe to any act or venue and we'll keep you posted about all their events.
+        <br>
+        <br>
+      </div>
+    </div>
+    <div style="padding:30px;text-align:center">
+      {% include 'mail/partials/action.html' with url=campaign_url message="Show Info" background="blue" %}
+      {% include 'mail/partials/action.html' with url=tickets_url message="My Tickets" %}
+    </div>
+  </div>
+{% endblock %}

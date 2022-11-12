@@ -1,0 +1,30 @@
+{% extends 'mail/partials/base.html' %}
+
+
+{% block title %}
+ Thank you for submitting your request to {{venue.title}}
+  <br/><br/>
+{% endblock %}
+
+{% block subtitle %}
+  Here is the <a href="{{feed_url}}" style="color:rgb(255,19,18)!important">link.</a> to your chat feed with the venue. Go ahead and introduce yourself if you'd like to  get the conversation going!
+{% endblock %}
+
+{% block message %} 
+  <div style="text-align:center;">
+
+ Go ahead and introduce yourself if you'd like to the get conversation going!
+
+ <br/>
+
+ I will personally assist you with anything that you may need to get this show going.
+
+ <br/>
+
+ <br/>
+
+ Cheers, Basil
+
+  </div>
+</div>
+{% endblock %}

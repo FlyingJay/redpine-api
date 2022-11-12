@@ -1,0 +1,129 @@
+{% extends 'mail/partials/base.html' %}
+
+{% block title %}
+  {{venue.title}}
+{% endblock %}
+
+{% block subtitle %}
+  <a href="{{my_venues_url}}" style="color:rgb(255,19,18)!important">
+    click here
+  </a> to edit the details for your venue.
+{% endblock %}
+
+{% block message %} 
+<div id="ih" style="display:block; width:100%; margin:0 auto; position:relative;">
+  <div id="message" style="display:block; width:80%; height:auto; padding:10px 15px 30px 15px; font-size:13px; text-align:center; margin:0 auto; color:#292929">
+    {% if historical_headcounts.last_week > 0 or historical_headcounts.last_month > 0 %}
+      <div style="padding:0 30px 50px 30px;text-align:center;display:inline-block;vertical-align:top;">
+        <div style="display:block; width:auto; height:auto; font-size:15px; color:#494949;padding:10px;">
+          <b>Past Week</b>
+        </div>
+        <div style="clear:both"></div>
+        <span style="font-size:15px;">{{historical_headcounts.last_week}} Guests</span>
+      </div>
+
+      <div style="padding: 0 30px 50px 30px;text-align:center;display:inline-block;vertical-align:top;">
+        <div style="display:block; width:auto; height:auto; font-size:15px; color:#494949;padding:10px;">
+          <b>Past Month</b>
+        </div>
+        <div style="clear:both"></div>
+        <span style="font-size:15px;">{{historical_headcounts.last_month}} Guests</span>
+      </div>
+    {% endif %}
+    <div style="display:block; position:relative; width:100%; height:auto; padding-bottom:10px;">
+      <div style="display:block; width:auto; height:auto; float:right; margin-top:5px; font-size:15px; color:#292929">
+        {{now|date:'j N Y'}}
+      </div>
+      <div style="clear:both"></div>
+      <div style="display:block; position:relative; width:100%; padding:0 0 10px 0; height:auto; text-align:center;">
+        <div style="display:inline-block; width:30%; height:auto; float:left; font-size:13px; color:#494949; text-align:left">
+          <b>Date</b>
+        </div>
+        <div style="display:inline-block; width:30%; height:auto; float:left; font-size:13px; color:#494949; text-align:left">
+          <b>Headliner</b>
+        </div>
+        <div style="display:inline-block; width:40%; height:auto; float:left; font-size:13px; color:#494949; text-align:right">
+          &nbsp;
+        </div>
+      </div>
+      <div style="clear:both"></div>
+    </div>
+    <div style="display:block; position:relative; width:100%; padding-top:10px; height:auto; border-top:1px dashed #BBB">
+      <div style="display:block; width:auto; height:auto; float:left; font-size:15px; color:#494949">
+        <b>Pending Requests</b>
+      </div>
+      <div style="clear:both"></div>
+    </div>
+    {% for show in pending_shows %}
+      <div style="display:block; position:relative; width:100%; padding:10px 0 30px 0; height:auto; text-align:center">
+        <div style="display:inline-block; width:30%; height:auto; float:left; font-size:13px; color:#494949; text-align:left">{{show.date|date:'j N'}}</div>
+        <div style="display:inline-block; width:30%; height:auto; float:left; font-size:13px; color:#494949; text-align:left">{{show.headliner}}</div>
+        <div style="display:inline-block; width:20%; height:auto; float:left; font-size:13px; color:#494949; text-align:right">
+          <a href="{{show.tickets_link}}" style="color:rgb(255,19,18)!important">Ticketing Page</a>
+        </div>
+        <div style="display:inline-block; width:20%; height:auto; float:left; font-size:13px; color:#494949; text-align:right">
+          <a href="{{show.hub_link}}" style="color:rgb(255,19,18)!important">Show Hub</a>
+        </div>
+      </div>
+    {% endfor %}
+
+    {% if pending_shows|length == 0 %}
+      <div style="display:block; position:relative; width:100%; padding:10px 0 30px 0; height:auto; text-align:center;">
+        <div style="display:inline-block; width:100%; height:auto; float:left; font-size:13px; color:#494949; text-align:center">
+          Without waiting for booking requests, you may still manage your events through redpine by adding them on your <a href="{{venue_calendar_url}}" style="color:rgb(255,19,18)!important">Venue Calendar</a>.
+          <br>
+          <br>
+        </div>
+      </div>
+    {% endif %}
+
+    {% if upcoming_shows|length > 0 %}
+      <div style="display:block; position:relative; width:100%; padding-top:10px; height:auto; border-top:1px dashed #BBB">
+        <div style="display:block; width:auto; height:auto; float:left; font-size:15px; color:#494949">
+          <b>Upcoming Shows</b>
+        </div>
+        <div style="clear:both"></div>
+      </div>
+      {%for show in upcoming_shows %}
+        <div style="display:block; position:relative; width:100%; padding:10px 0 30px 0; height:auto; text-align:center;">
+          <div style="display:inline-block; width:30%; height:auto; float:left; font-size:13px; color:#494949; text-align:left">{{show.date|date:'j N'}}</div>
+          <div style="display:inline-block; width:30%; height:auto; float:left; font-size:13px; color:#494949; text-align:left">{{show.headliner}}</div>
+          <div style="display:inline-block; width:20%; height:auto; float:left; font-size:13px; color:#494949; text-align:right">
+            <a href="{{show.tickets_link}}" style="color:rgb(255,19,18)!important">Ticketing Page</a>
+          </div>
+          <div style="display:inline-block; width:20%; height:auto; float:left; font-size:13px; color:#494949; text-align:right">
+            <a href="{{show.hub_link}}" style="color:rgb(255,19,18)!important">Show Hub</a>
+          </div>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    <div style="padding:30px;text-align:center;display:inline-block;vertical-align:top;">
+      <div style="display:block; width:auto; height:auto; font-size:15px; color:#494949;padding:10px;">
+        <b>Easily ticket your own shows!</b>
+      </div>
+      <div style="clear:both"></div>
+      {% include 'mail/partials/action.html' with url=venue_calendar_url message="Venue Calendar" background="blue" %}
+    </div>
+
+    <div style="padding:30px;text-align:center;display:inline-block;vertical-align:top;">
+      <div style="display:block; width:auto; height:auto; font-size:15px; color:#494949;padding:10px;">
+        <b>Looking to book more artists?</b>
+      </div>
+      <div style="clear:both"></div>
+      {% include 'mail/partials/action.html' with url=search_acts_url message="Search Acts" %}
+    </div>
+
+    <div style="display:block; position:relative; width:100%; padding:10px 0; height:auto; text-align:center">
+      <div style="display:inline-block; width:100%; height:auto; float:left; font-size:13px; color:#494949; text-align:center">
+        We send these reports out weekly to help ensure you won't miss a thing on your RedPine account. If there is anything else you would like to see in these reports please reach out to us and we will be happy to discuss! 
+        <br>
+        We value your business and your time, and will continue to drive efficiency wherever it happens to be most helpful.
+        <br>
+        <br>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

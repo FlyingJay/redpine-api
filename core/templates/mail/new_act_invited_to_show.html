@@ -1,0 +1,20 @@
+{% extends 'mail/partials/base.html' %}
+
+{% block title %}
+  You have been invited to play a show!
+  <br/><br/>
+{% endblock %}
+
+{% block subtitle %}Check out the details by 
+	<a href="{{register_url}}" style="color:rgb(255,19,18)!important">signing up</a>, then you'll be able to respond to the request, and coordinate the show with the other acts.  Let's all work together to make some great shows!
+{% endblock %}
+
+{% block message %} 
+  <div style="text-align:center;">
+  	You'll be able to follow the status of all your shows on the 
+  	<a href="{{my_shows_url}}" style="color:rgb(255,19,18)!important">My Shows</a> page, once you've signed up.  If you have any questions at all please don't hesitate to contact us! 
+    <br /><br />
+    Have a wonderful day!
+  </div>
+</div>
+{% endblock %}

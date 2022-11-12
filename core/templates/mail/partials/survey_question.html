@@ -1,0 +1,30 @@
+{% extends 'mail/partials/base.html' %}
+
+{% block title %}
+	Hi {{user.username}}, {{question.text}}
+{% endblock %}
+
+{% block message %} 
+  <div style="text-align:center;">
+  	<div style="display:inline-block;padding-right:25px;">
+			<form id="submit-yes" method="post" action="{{REDPINE_API_BASE_URL}}/v1/survey-response/" target="dummyframe"/>
+				<input type="hidden" name="response" value="True">
+				<input type="hidden" name="question" value="{{question.id}}">
+				<input type="hidden" name="user" value="{{user.id}}">
+				<input value="Yes" type="submit" style="display:inline-block;position:relative;width:200px;height:auto;padding:10px 15px;background:rgb(10,164,202);font-size:15px;font-weight:bold;margin:0 auto;color:#FFF;text-align:center;border-radius:7px;"/>
+			</form>
+  	</div>
+  	<div style="display:inline-block;padding-left:25px;">
+			<form id="submit-no" method="post" action="{{REDPINE_API_BASE_URL}}/v1/survey-response/" target="dummyframe"/>
+				<input type="hidden" name="response" value="False">
+				<input type="hidden" name="question" value="{{question.id}}">
+				<input type="hidden" name="user" value="{{user.id}}">
+				<input value="No" type="submit" style="display:inline-block;position:relative;width:200px;height:auto;padding:10px 15px;background:rgb(255,19,18);font-size:15px;font-weight:bold;margin:0 auto;color:#FFF;text-align:center;border-radius:7px;"/>
+			</form>
+  	</div>
+    <br /><br />
+    Have a wonderful day!
+  </div>
+</div>
+<iframe width="0" height="0" border="0" name="dummyframe" id="dummyframe"></iframe>
+{% endblock %}

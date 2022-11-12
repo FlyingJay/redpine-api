@@ -1,0 +1,14 @@
+{% extends 'mail/partials/base.html' %}
+
+{% block title %}
+  Hey <span style="color:rgb(255,19,18)">{{user.first_name}}</span>, it seems we couldn't process your subscription purchase.
+{% endblock %}
+
+{% block message %} 
+  <div style="text-align:center;">
+    Unfortunately when we charged your credit card we received a failure. This happens most frequently because the card was declined, or the provided postal code did not match your card. We strongly encourage you to try your purchase again - you won't be double charged. If you run into any further troubles then please get in touch with RedPine Support!
+    <br /><br />
+    Thanks for being a part of RedPine!
+  </div>
+</div>
+{% endblock %}

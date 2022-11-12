@@ -1,0 +1,120 @@
+{% extends 'mail/partials/base.html' %}
+
+{% block title %}
+  {{act.name}}
+{% endblock %}
+
+{% block subtitle %}
+  <a href="{{my_acts_url}}" style="color:rgb(255,19,18)!important">
+    click here
+  </a> to edit your act details.
+{% endblock %}
+
+{% block message %} 
+<div id="ih" style="display:block; width:100%; margin:0 auto; position:relative;">
+  <div id="message" style="display:block; width:80%; height:auto; padding:10px 15px 30px 15px; font-size:13px; text-align:center; margin:0 auto; color:#292929">
+    <div style="display:block; position:relative; width:100%; height:auto; padding-bottom:10px;">
+      <div style="display:block; width:auto; height:auto; float:right; margin-top:5px; font-size:15px; color:#292929">
+        {{now|date:'j N Y'}}
+      </div>
+      <div style="clear:both"></div>
+      <div style="display:block; position:relative; width:100%; padding:0 0 10px 0; height:auto; text-align:center;">
+        <div style="display:inline-block; width:30%; height:auto; float:left; font-size:13px; color:#494949; text-align:left">
+          <b>Date</b>
+        </div>
+        <div style="display:inline-block; width:30%; height:auto; float:left; font-size:13px; color:#494949; text-align:left">
+          <b>Headliner</b>
+        </div>
+        <div style="display:inline-block; width:40%; height:auto; float:left; font-size:13px; color:#494949; text-align:right">
+          &nbsp;
+        </div>
+      </div>
+      <div style="clear:both"></div>
+    </div>
+    <div style="display:block; position:relative; width:100%; padding-top:10px; height:auto; border-top:1px dashed #BBB">
+      <div style="display:block; width:auto; height:auto; float:left; font-size:15px; color:#494949">
+        <b>Pending Requests</b>
+      </div>
+      <div style="clear:both"></div>
+    </div>
+    {% for show in pending_shows %}
+      <div style="display:block; position:relative; width:100%; padding:10px 0 30px 0; height:auto; text-align:center">
+        <div style="display:inline-block; width:30%; height:auto; float:left; font-size:13px; color:#494949; text-align:left">{{show.date|date:'j N'}}</div>
+        <div style="display:inline-block; width:30%; height:auto; float:left; font-size:13px; color:#494949; text-align:left">{{show.headliner}}</div>
+        <div style="display:inline-block; width:20%; height:auto; float:left; font-size:13px; color:#494949; text-align:right">
+          <a href="{{show.tickets_link}}" style="color:rgb(255,19,18)!important">Ticketing Page</a>
+        </div>
+        <div style="display:inline-block; width:20%; height:auto; float:left; font-size:13px; color:#494949; text-align:right">
+          <a href="{{show.hub_link}}" style="color:rgb(255,19,18)!important">Show Hub</a>
+        </div>
+      </div>
+    {% endfor %}
+
+    {% if pending_shows|length == 0 %}
+      <div style="display:block; position:relative; width:100%; padding:10px 0 30px 0; height:auto; text-align:center;">
+        <div style="display:inline-block; width:100%; height:auto; float:left; font-size:13px; color:#494949; text-align:left">
+          You have no pending requests.. why not?  
+          <br>
+          <a href="{{play_a_show_url}}" style="color:rgb(255,19,18)!important">Play your next show!</a>
+          <br>
+          <br>
+        </div>
+      </div>
+    {% endif %}
+
+    {% if upcoming_shows|length > 0 %}
+      <div style="display:block; position:relative; width:100%; padding-top:10px; height:auto; border-top:1px dashed #BBB">
+        <div style="display:block; width:auto; height:auto; float:left; font-size:15px; color:#494949">
+          <b>Upcoming Shows</b>
+        </div>
+        <div style="clear:both"></div>
+      </div>
+      {%for show in upcoming_shows %}
+        <div style="display:block; position:relative; width:100%; padding:10px 0 30px 0; height:auto; text-align:center;">
+          <div style="display:inline-block; width:30%; height:auto; float:left; font-size:13px; color:#494949; text-align:left">{{show.date|date:'j N'}}</div>
+          <div style="display:inline-block; width:30%; height:auto; float:left; font-size:13px; color:#494949; text-align:left">{{show.headliner}}</div>
+          <div style="display:inline-block; width:20%; height:auto; float:left; font-size:13px; color:#494949; text-align:right">
+            <a href="{{show.tickets_link}}" style="color:rgb(255,19,18)!important">Ticketing Page</a>
+          </div>
+          <div style="display:inline-block; width:20%; height:auto; float:left; font-size:13px; color:#494949; text-align:right">
+            <a href="{{show.hub_link}}" style="color:rgb(255,19,18)!important">Show Hub</a>
+          </div>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    <div style="padding:30px;text-align:center;display:inline-block;vertical-align:top;">
+      <div style="display:block; width:auto; height:auto; font-size:15px; color:#494949;padding:10px;">
+        <b>Looking for other {{genre}} performers?</b>
+      </div>
+      <div style="clear:both"></div>
+      {% include 'mail/partials/action.html' with url=search_acts_url message="Search Acts" background="blue" %}
+    </div>
+
+    <div style="padding:30px;text-align:center;display:inline-block;vertical-align:top;">
+      <div style="display:block; width:auto; height:auto; font-size:15px; color:#494949;padding:10px;">
+        <b>Ready to play some {{hometown}} venues?</b>
+      </div>
+      <div style="clear:both"></div>
+      {% include 'mail/partials/action.html' with url=search_venues_url message="Search Venues" background="blue" %}
+    </div>
+
+    <div style="padding:30px;text-align:center;display:inline-block;vertical-align:top;">
+      <div style="display:block; width:auto; height:auto; font-size:15px; color:#494949;padding:10px;">
+        <b>Did you know you can ticket ANY event through RedPine?</b>
+      </div>
+      <div style="clear:both"></div>
+      {% include 'mail/partials/action.html' with url=just_tickets_url message="Sell Tickets" %}
+    </div>
+
+    <div style="display:block; position:relative; width:100%; padding:10px 0; height:auto; text-align:center">
+      <div style="display:inline-block; width:100%; height:auto; float:left; font-size:13px; color:#494949; text-align:center">
+        We send these reports out weekly to help ensure you won't miss a thing on your RedPine account. If there is anything else you would like to see in these reports please reach out to us and we will be happy to discuss! 
+        <br>
+        <br>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

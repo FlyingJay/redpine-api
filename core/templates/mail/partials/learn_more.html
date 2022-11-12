@@ -1,0 +1,13 @@
+
+<a href="{{ url | safe }}" target="_blank" style="text-decoration:none;color:#FFF;">
+	<div class="clickable" style="display:inline-block;width:calc(100% - 6vmin);text-align:center;padding:7.5vmin 2vmin;color:#313131;border-radius:1vmin;margin:1vmin;box-shadow:2px 2px 3px #D5D5D5;">
+		<img src="{{ REDPINE_STATIC_FILES }}/mail/{{ icon }}" style="width:50px;margin-bottom:1vmin;"/>
+		<div style="font-size:4vmin;line-height:5vmin;font-weight:bold;margin-bottom:1vmin;">
+			{{ text }}
+		</div>
+		<div class="red" style="font-size:4vmin;line-height:5vmin;font-weight:200;margin-bottom:1vmin;">
+			Learn More
+			<img src="{{ REDPINE_STATIC_FILES }}/mail/svg-red-right-arrow-icon-1.svg" style="width:5vmin;margin-left:0.5vmin;vertical-align:bottom;"/>
+		</div>
+	</div>
+</a>

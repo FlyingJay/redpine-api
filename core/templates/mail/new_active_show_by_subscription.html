@@ -1,0 +1,24 @@
+{% extends 'mail/partials/base.html' %}
+
+
+{% block title %}
+  Have you seen {{campaign.title}}?
+  <br/><br/>
+{% endblock %}
+
+{% block subtitle %}
+  One of your subscriptions is participating in the event, so we're letting you know! 
+  <br/><br/>
+  <a href="{{campaign_url}}" style="color:rgb(255,19,18)!important">Check here for the event details, or to purchase tickets.</a>
+{% endblock %}
+
+{% block message %} 
+  <div style="text-align:center;">
+
+    <span style="font-style:italic;">You can toggle your subscription status for each Act, Venue, or Organization - on their respective profile pages.</span>
+
+  </div>
+</div>
+{% endblock %}
+
+

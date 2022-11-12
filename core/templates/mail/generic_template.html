@@ -1,0 +1,25 @@
+
+{% extends 'mail/partials/system_message.html' %}
+
+{% block title %}
+  Hey <span class="red">Jason</span>! Did you know this is an email?
+{% endblock %}
+
+{% block subtitle %}
+ ...this is a subtitle.
+{% endblock %}
+
+{% block content %} 
+  ...and this is where we add all the content.
+  <br/>
+  <br/>
+
+  {% if has_event_link %}
+    {% include 'mail/partials/learn_more.html' with icon="logo_thin.png" text="Show Hub" url=tickets_url  %}
+  {% else %}
+    #Something Else
+  {% endif %}
+
+  {% include 'mail/partials/quick_summary.html' with icon="logo_thin.png" title="Show Hub" text="The Show Hub helps musicians and event organizers keep up-to-date with the event, ticket sales, and all communications."  %}
+
+{% endblock %}

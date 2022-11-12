@@ -1,0 +1,25 @@
+{% extends 'mail/partials/base.html' %}
+
+{% block title %}
+  Hey <span style="color:rgb(255,19,18)">{{user.first_name}}</span>, you just cancelled your transaction for 
+  <br>
+  <span style="color:rgb(255,19,18)">{{transaction.campaign.title}}</span>
+{% endblock %}
+
+{% block subtitle %}If you didn't cancel this transaction, or if you end up changing your mind, you can always re-transaction by clicking <a href="{{campaign_url}}" style="color:rgb(255,19,18)!important">
+    here</a>.{% endblock %}
+
+{% block message %} 
+  <div style="text-align:center;">
+    We're sad to see you go, but we understand. We also want you to know that because you've cancelled your transaction, your credit card will not be charged if and when the campaign reaches its goal. That was our promise to you, and we're going to keep it. We hope that you will come back again.
+    <br /><br />
+    To view the concert you cancelled the transaction for, or to manage your currently active transactions, click the buttons below. 
+    <br /><br />
+    Thanks for being a part of RedPine!
+  </div>
+  <div style="padding:30px">
+    {% include 'mail/partials/action.html' with url=campaign_url message="Concert Details" background="blue" %}
+    {% include 'mail/partials/action.html' with url=transactions_url message="Manage my Purchases" %}
+  </div>
+</div>
+{% endblock %}

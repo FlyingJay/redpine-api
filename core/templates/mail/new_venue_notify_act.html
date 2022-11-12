@@ -1,0 +1,64 @@
+{% extends 'mail/partials/base.html' %}
+
+{% block title %}
+  <span style="color:rgb(255,19,18)!important">{{new_venue.title}}</span> is the newest RedPine venue in your city!
+{% endblock %}
+{% block subtitle %}
+  You may now <a href="{{new_venue_booking_link}}" style="color:rgb(255,19,18)!important">book {{new_venue.title}}</a> on RedPine.
+{% endblock %}
+
+{% block message %} 
+<div id="ih" style="display:block; width:100%; margin:0 auto; position:relative;">
+  {% if related_venues|length > 1 %}
+    <div id="message" style="display:block; width:80%; height:auto; padding:10px 15px 30px 15px; font-size:13px; text-align:center; margin:0 auto; color:#292929">
+      <div style="display:block; position:relative; width:100%; padding:0 0 10px 0; height:auto; text-align:center;">
+        <div style="display:inline-block; width:100%; height:auto; float:left; font-size:13px; color:#494949; text-align:left">
+          <b>Check out other {{new_venue.city}} venues who book {{genre}}!</b>
+        </div>
+      </div>
+      <div style="clear:both"></div>
+      {% for venue in related_venues %}
+        <div style="display:block; position:relative; width:100%; padding:10px 0 30px 0; height:auto; text-align:center">
+          <div style="display:inline-block; width:60%; height:auto; float:left; font-size:13px; color:#494949; text-align:left">
+            <b>{{venue.title}}</b> <br/>
+            Capacity: {{venue.capacity}} <br/>
+            Prefers: {{venue.genre}}
+          </div>
+          <div style="display:inline-block; width:20%; height:auto; float:left; font-size:13px; color:#494949; text-align:right">
+            <a href="{{venue.profile_link}}" style="color:rgb(255,19,18)!important">View Profile</a>
+          </div>
+          <div style="display:inline-block; width:20%; height:auto; float:left; font-size:13px; color:#494949; text-align:right">
+            <a href="{{venue.booking_link}}" style="color:rgb(255,19,18)!important">Book Now!</a>
+          </div>
+          <br/>
+        </div>
+      {% endfor %}
+    </div>
+    <div style="clear:both"></div>
+  {% endif %}
+  <div style="padding:30px;text-align:center;display:inline-block;vertical-align:top;">
+    <div style="display:block; width:auto; height:auto; font-size:15px; color:#494949;padding:10px;">
+      <b>Looking for other {{genre}} performers?</b>
+    </div>
+    <div style="clear:both"></div>
+    {% include 'mail/partials/action.html' with url=search_acts_url message="Search Acts" background="blue" %}
+  </div>
+
+  <div style="padding:30px;text-align:center;display:inline-block;vertical-align:top;">
+    <div style="display:block; width:auto; height:auto; font-size:15px; color:#494949;padding:10px;">
+      <b>Ready to play some {{hometown}} venues?</b>
+    </div>
+    <div style="clear:both"></div>
+    {% include 'mail/partials/action.html' with url=search_venues_url message="Search Venues" background="blue" %}
+  </div>
+
+  <div style="padding:30px;text-align:center;display:inline-block;vertical-align:top;">
+    <div style="display:block; width:auto; height:auto; font-size:15px; color:#494949;padding:10px;">
+      <b>Did you know you can ticket ANY event through RedPine?</b>
+    </div>
+    <div style="clear:both"></div>
+    {% include 'mail/partials/action.html' with url=just_tickets_url message="Sell Tickets" %}
+  </div>
+  <div style="clear:both"></div>
+</div>
+{% endblock %}

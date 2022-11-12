@@ -1,0 +1,128 @@
+{% load static %}
+
+<html>
+  <head>
+    <style>
+      body {
+        font-family: Verdana, sans-serif;
+      }
+      .red {
+        color: rgb(255,18,19)!important;
+      }
+      .clickable:hover {
+        background: #EEEEEE;
+        cursor: pointer;
+        transition: all 0.25s ease;
+      }
+      .wrapper {
+        display:block;
+        position:relative;
+        width:90%;
+        padding:4vmin;
+      }
+      .logo {
+        border-bottom:1px solid #CCC;
+        text-align: left;
+        padding-bottom:4vmin;
+      }
+      .large_text {
+        color:#313131;
+        font-size:3vmin;
+      }
+      .medium_text {
+        color:#313131;
+        font-size:2vmin;
+      }
+      .small_text {
+        color:#313131;
+        font-size:1.75vmin;
+      }
+      .title {
+        display:block;
+        position:relative;
+        padding-top: 4vmin;
+        font-weight:bold;
+        margin:0 auto;
+        text-align:center;
+      }
+      .subtitle {
+        display:block;
+        position:relative;
+        width:100%;
+        text-align:center;
+      }
+      .content {
+        display:block;
+        position:relative;
+        width:100%;
+        text-align:center;
+        padding: 8vmin 0 4vmin 0;
+        border-bottom:1px solid #CCC;
+      }
+      .social_logo {
+        display:inline-block;
+        position:relative;
+        width:8vmin;
+        height:8vmin;
+        margin:2vmin 2vmin 0 0;
+      }
+      .with_love {
+        display:block;
+        position:relative;
+        padding: 12vmin 0 2vmin 0;
+        text-align:center;
+      }
+
+      @media (max-width: 768px) and (orientation: portrait){
+        .large_text {
+          font-size:4vmin;
+        }
+        .medium_text {
+          font-size:3vmin;
+        }
+        .small_text {
+          font-size:2vmin;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="logo">
+        <img src="{{ REDPINE_STATIC_FILES }}/mail/logo_thin.png" style="width:75px"/>
+      </div>
+      <div class="title large_text">
+        {% block title %}{% endblock %}
+      </div>
+      <div class="subtitle medium_text">
+        {% block subtitle %}{% endblock %}
+      </div>
+      <div class="content medium_text">
+        {% block content %}{% endblock %}
+      </div>
+      <div style="text-align:center;padding:4vmin;">
+        <div class="medium_text">
+          Need some help? Just reply to this email, or message our social accounts!
+        </div>
+        <a href="{{REDPINE_INSTAGRAM_URL}}" target="_blank" style="text-decoration:none;">
+          <img src="{{ REDPINE_STATIC_FILES }}/mail/instagram@2x.png" class="social_logo"/>
+        </a>
+        <a href="{{REDPINE_FACEBOOK_URL}}" target="_blank" style="text-decoration:none;">
+          <img src="{{ REDPINE_STATIC_FILES }}/mail/facebook@2x.png" class="social_logo"/>
+        </a>
+        <a href="{{REDPINE_TWITTER_URL}}" target="_blank" style="text-decoration:none;">
+          <img src="{{ REDPINE_STATIC_FILES }}/mail/twitter@2x.png" class="social_logo"/>
+        </a>
+        <br/>
+        <a href="https://{{REDPINE_DOMAIN_NAME}}" target="_blank" style="text-decoration:none;color:#FFF;">
+          <div class="with_love large_text">
+            Sent with <img src="{{ REDPINE_STATIC_FILES }}/mail/love.png" style="width:15px"/> from <img src="{{ REDPINE_STATIC_FILES }}/mail/logo_thin.png" style="width:50px"/>
+          </div>
+        </a>
+        <div class="small_text">
+          To stop recieving automated emails, reply "unsubscribe" to unsubscribe@redpinemusic.com
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

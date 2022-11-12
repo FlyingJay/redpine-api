@@ -1,0 +1,43 @@
+{% extends 'mail/partials/base.html' %}
+
+{% block title %}
+  Hey {{user.first_name}}, we've found some great shows for you!
+{% endblock %}
+{% block subtitle %}
+  These listings have been personalized just for you, based on the shows you've attended. 
+{% endblock %}
+
+{% block message %} 
+<div id="ih" style="display:block; width:100%; margin:0 auto; position:relative;">
+  <div id="message" style="display:block; width:80%; height:auto; padding:10px 15px 30px 15px; font-size:13px; text-align:center; margin:0 auto; color:#292929">
+    <div style="display:block; position:relative; width:100%; height:auto; padding-bottom:10px;">
+      <div style="display:block; width:auto; height:auto; float:right; margin-top:5px; font-size:15px; color:#292929">
+        {{now|date:'j N Y'}}
+      </div>
+      <div style="clear:both"></div>
+    </div>
+    {% for show in relevant_shows %}
+      <div style="display:block; position:relative; width:100%; padding:10px 0 30px 0; height:auto; text-align:center">
+        <div style="display:inline-block; width:70%; height:auto; float:left; font-size:13px; color:#494949; text-align:left">
+          <b>{{show.bands}}</b>
+          <br/>
+          {{show.date|date:'N j'}} @ <b>{{show.venue}}</b><br>
+        </div>
+        <div style="display:inline-block; width:30%; height:auto; float:left; font-size:13px; color:#494949; text-align:right">
+          <a href="{{show.tickets_link}}" style="color:rgb(255,19,18)!important">Ticketing Page</a>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  <div style="clear:both"></div>
+
+  <div style="padding:30px;text-align:center;display:inline-block;vertical-align:top;">
+    <div style="display:block; width:auto; height:auto; font-size:15px; color:#494949;padding:10px;">
+      <b>New events are always being added!</b>
+    </div>
+    <div style="clear:both"></div>
+    {% include 'mail/partials/action.html' with url=search_shows_url message="Browse Shows" background="blue" %}
+  </div>
+  <div style="clear:both"></div>
+</div>
+{% endblock %}

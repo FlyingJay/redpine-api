@@ -1,0 +1,35 @@
+{% extends 'mail/partials/base.html' %}
+
+
+{% block title %}
+ Hey {{user.first_name}}, congrats on {{campaign.title}}!
+  <br/><br/>
+{% endblock %}
+
+{% block subtitle %}
+  To strengthen the music community, it's important to take a second and <a href="{{reviews_url}}" style="color:rgb(255,19,18)!important">review</a> your experience.
+{% endblock %}
+
+{% block message %} 
+  <div style="text-align:center;">
+
+It's a very simple 5-star system for things like communication, overall experience, etc. 
+
+
+ <br/>
+
+ <br/>
+
+If you run into any issues let me know..
+
+ <br/>
+
+ <br/>
+
+ Cheers, Basil
+
+  </div>
+</div>
+{% endblock %}
+
+

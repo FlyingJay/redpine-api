@@ -1,0 +1,55 @@
+services:
+  - mdillon/postgis:9.6
+
+cache:
+  paths:
+    - "$CI_PROJECT_DIR/pip-cache"
+  key: "$CI_PROJECT_ID"
+
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/pip-cache"
+  POSTGRES_DB: redpine
+  POSTGRES_USER: redpine
+  POSTGRES_PASSWORD: "redpine"
+  DATABASE_URL: postgres://redpine:redpine@mdillon-postgis/redpine
+  REDPINE_WEBAPP_BASE_URL: http://app.redpinetest
+  REDPINE_API_BASE_URL: http://api.redpinetest
+
+production:
+  image: "redpinemusic/api-deploy"
+  type: deploy
+  script:
+    - bash heroku-installer.sh
+    - gem update --system 2.7.8 --no-document
+    - gem install faraday -v 0.17.3
+    - dpl --provider=heroku --app=redpine-api --api-key=$HEROKU_API_KEY
+  only:
+    - tags
+  environment:
+    name: production
+    url: https://api.redpinemusic.com
+  variables:
+    HEROKU_API_KEY: YOUR_HEROKU_API_KEY
+
+staging:
+  image: "redpinemusic/api-deploy"
+  type: deploy
+  script:
+    - bash heroku-installer.sh
+    - gem update --system 2.7.8 --no-document
+    - gem install faraday -v 0.17.3
+    - dpl --provider=heroku --app=redpine-api-staging --api-key=$HEROKU_API_KEY
+  only:
+    - master
+  environment:
+    name: staging
+    url: http://api-staging.redpinemusic.com
+  variables:
+    HEROKU_API_KEY: YOUR_HEROKU_API_KEY
+
+test:
+  image: "redpinemusic/api-test"
+  type: test
+  script:
+    - pip install -r requirements.txt
+    - python manage.py test -v3
